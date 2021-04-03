@@ -1,8 +1,10 @@
+import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import { makeStyles } from "@material-ui/core/styles";
@@ -46,8 +48,41 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
 }));
+const renderData = (items, focus) => {
+  const avatarClass = {
+    display: "flex",
+    justifyItems: "center",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginRight: "2.5rem",
+  };
+  return items.map((item, idx) => {
+    return (
+      <ListItem key={item.countryInfo._id}>
+        <ListItemAvatar style={avatarClass}>
+          <Avatar
+            variant="rounded"
+            alt={item.country}
+            src={item.countryInfo.flag}
+          />
+          <p style={{ margin: "0 .5rem" }}>{idx + 1}</p>
+        </ListItemAvatar>
+        <ListItemText
+          primary={item.country}
+          secondary={
+            <React.Fragment>
+              <Typography component="span" variant="body2" color="textPrimary">
+                {item[focus] && item[focus].toLocaleString()}
+              </Typography>
+            </React.Fragment>
+          }
+        />
+      </ListItem>
+    );
+  });
+};
 // eslint-disable-next-line no-unused-vars
-function CovList({ title, total, items }) {
+function CovList({ title, total, items, titleColor, focus }) {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -60,9 +95,9 @@ function CovList({ title, total, items }) {
               component="h6"
               color="error.main"
             >
-              <Box color="error.main">{title}</Box>
+              <Box color={titleColor}>{title}</Box>
             </Typography>
-            <Typography variant="h3" component="h3">
+            <Typography variant="h4" component="h4">
               {total}
             </Typography>
           </Box>
@@ -70,17 +105,9 @@ function CovList({ title, total, items }) {
       </ListSubheader>
       <CardContent className={classes.content}>
         <List className={classes.list} subheader={<li />}>
-          {[0, 1, 2, 3, 4].map((sectionId) => (
-            <li key={`section-${sectionId}`} className={classes.listSection}>
-              <ul className={classes.ul}>
-                {[0, 1, 2].map((item) => (
-                  <ListItem key={`item-${sectionId}-${item}`}>
-                    <ListItemText primary={`Item ${item}`} />
-                  </ListItem>
-                ))}
-              </ul>
-            </li>
-          ))}
+          <li className={classes.listSection}>
+            <ul className={classes.ul}>{renderData(items, focus)}</ul>
+          </li>
         </List>
       </CardContent>
     </Card>
@@ -89,6 +116,8 @@ function CovList({ title, total, items }) {
 CovList.propTypes = {
   title: PropTypes.string.isRequired,
   total: PropTypes.string.isRequired,
+  titleColor: PropTypes.string.isRequired,
+  focus: PropTypes.string.isRequired,
   items: PropTypes.array,
 };
 export default CovList;
