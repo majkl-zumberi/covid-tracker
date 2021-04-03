@@ -2,17 +2,24 @@ import Paper from "@material-ui/core/Paper";
 import { ThemeProvider } from "@material-ui/core/styles";
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { applyMiddleware, createStore } from "redux";
+import thunkMiddleware from "redux-thunk";
 import App from "./App";
 import "./index.css";
+import rootReducer from "./redux/reducers";
 import reportWebVitals from "./reportWebVitals";
 import theme from "./theme/theme";
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <Paper style={{ height: "100vh", width: "100vw" }}>
-      <App />
-    </Paper>
-  </ThemeProvider>,
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <Paper style={{ height: "100vh", width: "100vw" }}>
+        <App />
+      </Paper>
+    </ThemeProvider>
+  </Provider>,
   document.getElementById("root")
 );
 
