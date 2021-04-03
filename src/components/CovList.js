@@ -58,14 +58,16 @@ const renderData = (items, focus) => {
   };
   return items.map((item, idx) => {
     return (
-      <ListItem key={item.countryInfo._id}>
-        <ListItemAvatar style={avatarClass}>
-          <Avatar
-            variant="rounded"
-            alt={item.country}
-            src={item.countryInfo.flag}
-          />
-          <p style={{ margin: "0 .5rem" }}>{idx + 1}</p>
+      <ListItem key={item.countryInfo._id ?? idx}>
+        <ListItemAvatar>
+          <Box style={avatarClass}>
+            <Avatar
+              variant="rounded"
+              alt={item.country}
+              src={item.countryInfo.flag}
+            />
+            <p style={{ margin: "0 .5rem" }}>{idx + 1}</p>
+          </Box>
         </ListItemAvatar>
         <ListItemText
           primary={item.country}
