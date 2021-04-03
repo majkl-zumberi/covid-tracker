@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import React from "react";
 function Container(props) {
   return (
-    <Grid container style={{ padding: "1em 1em 0 1em" }}>
+    <Grid
+      container
+      style={{ padding: "1em 1em 0 1em", backgroundColor: "#424242" }}
+    >
       {props.children}
     </Grid>
   );
