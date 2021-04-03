@@ -8,6 +8,7 @@ import ListContainer from "./components/ListContainer";
 import Loader from "./components/Loader";
 import Nav from "./components/Nav";
 import { fetchCovTotals, fetchGlobalCov } from "./redux/actions";
+
 function App() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -25,6 +26,7 @@ function App() {
         <Container>
           <ListContainer>
             <CovList
+              classType="primary"
               title="Totale decessi"
               titleColor="error.main"
               total={
@@ -35,9 +37,10 @@ function App() {
               focus="deaths"
             />
           </ListContainer>
-          <CovMap />
+          <CovMap countries={state.covTotals.countries} />
           <ListContainer>
             <CovList
+              classType="secondary"
               title="Totale Infetti"
               titleColor="secondary.main"
               total={
