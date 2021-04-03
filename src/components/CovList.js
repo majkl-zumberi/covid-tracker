@@ -47,6 +47,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "inherit",
     padding: 0,
   },
+  primary: {
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: "3.5rem",
+    },
+  },
+  secondary: {
+    [theme.breakpoints.down("sm")]: {
+      margin: "3.5rem  0",
+    },
+  },
 }));
 const renderData = (items, focus) => {
   const avatarClass = {
@@ -84,10 +94,10 @@ const renderData = (items, focus) => {
   });
 };
 // eslint-disable-next-line no-unused-vars
-function CovList({ title, total, items, titleColor, focus }) {
+function CovList({ title, total, items, titleColor, focus, classType }) {
   const classes = useStyles();
   return (
-    <Card className={classes.root}>
+    <Card className={[classes.root, classes[classType]].join(" ")}>
       <ListSubheader className={classes.header}>
         <div className="stickyHeader" style={{ backgroundColor: "#222327" }}>
           <Box bgcolor="#222327">
@@ -120,6 +130,7 @@ CovList.propTypes = {
   total: PropTypes.string.isRequired,
   titleColor: PropTypes.string.isRequired,
   focus: PropTypes.string.isRequired,
+  classType: PropTypes.string.isRequired,
   items: PropTypes.array,
 };
 export default CovList;
