@@ -4,13 +4,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { applyMiddleware, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware from "redux-thunk";
 import App from "./App";
 import "./index.css";
 import rootReducer from "./redux/reducers";
 import reportWebVitals from "./reportWebVitals";
 import theme from "./theme/theme";
-const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunkMiddleware))
+);
 
 ReactDOM.render(
   <Provider store={store}>
