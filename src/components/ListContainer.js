@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 function ListContainer(props) {
   return (
-    <Grid item xs={12} sm={2}>
+    <Grid item xs={12} sm={12} md={3} lg={2}>
       {props.children}
     </Grid>
   );
