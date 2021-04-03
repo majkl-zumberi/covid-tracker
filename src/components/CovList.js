@@ -7,15 +7,22 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import PropTypes from "prop-types";
 import React from "react";
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     maxHeight: "90vh",
     overflow: "auto",
+    scrollbarColor: "gray transparent",
   },
   content: {
     height: "auto",
-    maxHeight: "100vh",
+    [theme.breakpoints.down("xl")]: {
+      maxHeight: "90vh",
+    },
+    [theme.breakpoints.down("lg")]: {
+      maxHeight: "70vh",
+    },
   },
   header: {
     paddingLeft: 0,
@@ -38,8 +45,9 @@ const useStyles = makeStyles({
     backgroundColor: "inherit",
     padding: 0,
   },
-});
-function CovDeaths() {
+}));
+// eslint-disable-next-line no-unused-vars
+function CovList({ title, total, items }) {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -52,10 +60,10 @@ function CovDeaths() {
               component="h6"
               color="error.main"
             >
-              <Box color="error.main">Decessi totali</Box>
+              <Box color="error.main">{title}</Box>
             </Typography>
             <Typography variant="h3" component="h3">
-              2.777.188
+              {total}
             </Typography>
           </Box>
         </div>
@@ -78,5 +86,9 @@ function CovDeaths() {
     </Card>
   );
 }
-
-export default CovDeaths;
+CovList.propTypes = {
+  title: PropTypes.string.isRequired,
+  total: PropTypes.string.isRequired,
+  items: PropTypes.array,
+};
+export default CovList;
