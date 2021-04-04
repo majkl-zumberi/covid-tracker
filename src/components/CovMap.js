@@ -55,14 +55,14 @@ function CovMap({ countries }) {
   return (
     <Grid item xs={12} sm={12} md={6} lg={6} xl={8}>
       <MapContainer
-        center={[41.871941, 12.56738]}
+        center={[41.871941, 12.56738]} // map view set to italy
         zoom={5}
         scrollWheelZoom={true}
         className={classes.map}
       >
         <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+          url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
         />
         {renderMarkers(countries)}
       </MapContainer>
