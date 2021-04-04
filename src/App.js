@@ -8,18 +8,25 @@ import ListContainer from "./components/ListContainer";
 import Loader from "./components/Loader";
 import Nav from "./components/Nav";
 import { fetchCovTotals, fetchGlobalCov } from "./redux/actions";
-
+import {
+  selectCovGlobal,
+  selectCovTotals,
+  selectCountriesSortedByCases,
+  selectCountriesSortedByDeaths,
+} from "./redux/reducers";
 function App() {
   const dispatch = useDispatch();
-  const state = useSelector((state) => state);
-  console.log({ state });
+  const covGlobal = useSelector(selectCovGlobal);
+  const covTotals = useSelector(selectCovTotals);
+  const countriesSortedByDeaths = useSelector(selectCountriesSortedByDeaths);
+  const countriesSortedByCases = useSelector(selectCountriesSortedByCases);
 
   useEffect(() => {
     dispatch(fetchCovTotals());
     dispatch(fetchGlobalCov());
   }, []);
   const renderData = () => {
-    if (state.covGlobal.loading || state.covTotals.loading) {
+    if (covGlobal.loading || covTotals.loading) {
       return <Loader open={true} />;
     } else {
       return (
@@ -30,24 +37,24 @@ function App() {
               title="Totale decessi"
               titleColor="error.main"
               total={
-                state.covGlobal.detail.deaths &&
-                state.covGlobal.detail.deaths.toLocaleString()
+                covGlobal.detail.deaths &&
+                covGlobal.detail.deaths.toLocaleString()
               }
-              items={state.covTotals.countries}
+              items={countriesSortedByDeaths}
               focus="deaths"
             />
           </ListContainer>
-          <CovMap countries={state.covTotals.countries} />
+          <CovMap countries={covTotals.countries} />
           <ListContainer>
             <CovList
               classType="secondary"
               title="Totale Infetti"
               titleColor="secondary.main"
               total={
-                state.covGlobal.detail.deaths &&
-                state.covGlobal.detail.cases.toLocaleString()
+                covGlobal.detail.deaths &&
+                covGlobal.detail.cases.toLocaleString()
               }
-              items={state.covTotals.countries}
+              items={countriesSortedByCases}
               focus="cases"
             />
           </ListContainer>
