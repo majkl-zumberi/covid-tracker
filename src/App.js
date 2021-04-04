@@ -48,7 +48,7 @@ function App() {
           <ListContainer>
             <CovList
               classType="secondary"
-              title="Totale Infetti"
+              title="Totale Contagi"
               titleColor="secondary.main"
               total={
                 covGlobal.detail.deaths &&

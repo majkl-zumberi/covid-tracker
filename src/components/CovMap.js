@@ -41,7 +41,7 @@ const renderMarkers = (data) => {
             <ListItemText primary={country.country} />
 
             <Box>
-              <p>Infetti oggi: {country.todayCases.toLocaleString()}</p>
+              <p>Contagi oggi: {country.todayCases.toLocaleString()}</p>
               <p>Decessi oggi: {country.todayDeaths.toLocaleString()}</p>
             </Box>
           </ListItem>
