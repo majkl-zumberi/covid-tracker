@@ -21,3 +21,25 @@ export const fetchGlobalCov = () => async (dispatch) => {
     dispatch({ type: "FETCH_COVGLOBAL_FAILURE", error });
   }
 };
+export const fetchCoverage = () => async (dispatch) => {
+  dispatch({ type: "FETCH_COVERAGE_REQUEST" });
+  try {
+    const { data } = await axios.get(
+      "https://disease.sh/v3/covid-19/vaccine/coverage/countries?lastdays=all"
+    );
+    dispatch({ type: "FETCH_COVERAGE_SUCCESS", payload: data });
+  } catch (error) {
+    dispatch({ type: "FETCH_COVERAGE_FAILURE", error });
+  }
+};
+export const fetchGlobalCoverage = () => async (dispatch) => {
+  dispatch({ type: "FETCH_GLOBALCOVERAGE_REQUEST" });
+  try {
+    const { data } = await axios.get(
+      "https://disease.sh/v3/covid-19/vaccine/coverage?lastdays=all"
+    );
+    dispatch({ type: "FETCH_GLOBALCOVERAGE_SUCCESS", payload: data });
+  } catch (error) {
+    dispatch({ type: "FETCH_GLOBALCOVERAGE_FAILURE", error });
+  }
+};
