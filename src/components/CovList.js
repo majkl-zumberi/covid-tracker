@@ -68,13 +68,16 @@ const renderData = (items, focus) => {
   };
   return items.map((item, idx) => {
     return (
-      <ListItem key={item.countryInfo._id ?? idx}>
+      <ListItem key={item?.countryInfo?._id ?? idx}>
         <ListItemAvatar>
           <Box style={avatarClass}>
             <Avatar
               variant="rounded"
               alt={item.country}
-              src={item.countryInfo.flag}
+              src={
+                item?.countryInfo?.flag ??
+                "https://disease.sh/assets/img/flags/unknown.png"
+              }
             />
             <p style={{ margin: "0 .5rem" }}>{idx + 1}</p>
           </Box>
@@ -110,7 +113,7 @@ function CovList({ title, total, items, titleColor, focus, classType }) {
               <Box color={titleColor}>{title}</Box>
             </Typography>
             <Typography variant="h4" component="h4">
-              {total}
+              {total.toLocaleString()}
             </Typography>
           </Box>
         </div>
