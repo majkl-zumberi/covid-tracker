@@ -12,6 +12,7 @@ import DraftsIcon from "@material-ui/icons/Drafts";
 import InboxIcon from "@material-ui/icons/Inbox";
 import MenuIcon from "@material-ui/icons/Menu";
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -29,10 +30,16 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
 }));
+
 function Nav() {
+  const history = useHistory();
   const [drawer, setDrawer] = useState({ open: false });
   const toggleDrawer = (status) => {
     setDrawer({ open: status });
+  };
+  const redirectToPath = (path) => {
+    toggleDrawer(false);
+    history.push(path);
   };
   const classes = useStyles();
   return (
@@ -62,13 +69,19 @@ function Nav() {
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary="casi e decessi" />
+              <ListItemText
+                primary="casi e decessi"
+                onClick={() => redirectToPath("/")}
+              />
             </ListItem>
             <ListItem button>
               <ListItemIcon>
                 <DraftsIcon />
               </ListItemIcon>
-              <ListItemText primary="vaccinazioni" />
+              <ListItemText
+                primary="vaccinazioni"
+                onClick={() => redirectToPath("/coverage")}
+              />
             </ListItem>
           </List>
         </div>
