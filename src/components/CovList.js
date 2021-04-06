@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const renderData = (items, focus) => {
+const renderData = (items, focus, onSelectListItem) => {
   const avatarClass = {
     display: "flex",
     justifyItems: "center",
@@ -68,7 +68,10 @@ const renderData = (items, focus) => {
   };
   return items.map((item, idx) => {
     return (
-      <ListItem key={item?.countryInfo?._id ?? idx}>
+      <ListItem
+        key={item?.countryInfo?._id ?? idx}
+        onClick={() => onSelectListItem(item.country)}
+      >
         <ListItemAvatar>
           <Box style={avatarClass}>
             <Avatar
@@ -97,7 +100,15 @@ const renderData = (items, focus) => {
   });
 };
 // eslint-disable-next-line no-unused-vars
-function CovList({ title, total, items, titleColor, focus, classType }) {
+function CovList({
+  title,
+  total,
+  items,
+  titleColor,
+  focus,
+  classType,
+  onSelectListItem,
+}) {
   const classes = useStyles();
   return (
     <Card className={[classes.root, classes[classType]].join(" ")}>
@@ -113,7 +124,7 @@ function CovList({ title, total, items, titleColor, focus, classType }) {
               <Box color={titleColor}>{title}</Box>
             </Typography>
             <Typography variant="h4" component="h4">
-              {total.toLocaleString()}
+              {total}
             </Typography>
           </Box>
         </div>
@@ -121,7 +132,9 @@ function CovList({ title, total, items, titleColor, focus, classType }) {
       <CardContent className={classes.content}>
         <List className={classes.list} subheader={<li />}>
           <li className={classes.listSection}>
-            <ul className={classes.ul}>{renderData(items, focus)}</ul>
+            <ul className={classes.ul}>
+              {renderData(items, focus, onSelectListItem)}
+            </ul>
           </li>
         </List>
       </CardContent>
@@ -130,10 +143,11 @@ function CovList({ title, total, items, titleColor, focus, classType }) {
 }
 CovList.propTypes = {
   title: PropTypes.string.isRequired,
-  total: PropTypes.string.isRequired,
+  total: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   titleColor: PropTypes.string.isRequired,
   focus: PropTypes.string.isRequired,
   classType: PropTypes.string.isRequired,
   items: PropTypes.array,
+  onSelectListItem: PropTypes.func,
 };
 export default CovList;
