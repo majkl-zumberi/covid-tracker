@@ -1,5 +1,5 @@
 const initialState = {
-  coverageCountries: {},
+  coverageCountries: [],
   loading: false,
   error: null,
 };
