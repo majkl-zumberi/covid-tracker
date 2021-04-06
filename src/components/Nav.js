@@ -38,8 +38,8 @@ function Nav() {
     setDrawer({ open: status });
   };
   const redirectToPath = (path) => {
-    toggleDrawer(false);
     history.push(path);
+    toggleDrawer(false);
   };
   const classes = useStyles();
   return (
