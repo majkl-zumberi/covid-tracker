@@ -5,12 +5,19 @@ import "./App.css";
 import Coverage from "./components/Coverage";
 import Home from "./components/Home/Home";
 import Nav from "./components/Nav";
-import { fetchCovTotals, fetchGlobalCov } from "./redux/actions";
+import {
+  fetchCovTotals,
+  fetchGlobalCov,
+  fetchCoverage,
+  fetchGlobalCoverage,
+} from "./redux/actions";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCovTotals());
     dispatch(fetchGlobalCov());
+    dispatch(fetchGlobalCoverage());
+    dispatch(fetchCoverage());
   }, []);
   return (
     <Router>
