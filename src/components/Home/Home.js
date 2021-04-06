@@ -37,6 +37,7 @@ function Home() {
               }
               items={countriesSortedByDeaths}
               focus="deaths"
+              onSelectListItem={() => {}}
             />
           </ListContainer>
           <CovMap countries={covTotals.countries} />
@@ -51,6 +52,7 @@ function Home() {
               }
               items={countriesSortedByCases}
               focus="cases"
+              onSelectListItem={() => {}}
             />
           </ListContainer>
         </Container>
