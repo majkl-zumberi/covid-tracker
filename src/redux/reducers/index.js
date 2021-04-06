@@ -4,6 +4,8 @@ import coverageReducer from "./coverage";
 import covTotalsReducer from "./covTotals";
 import globalCovReducer from "./globalCov";
 import globalCoverageReducer from "./globalCoverage";
+import moment from "moment";
+moment.locale("it");
 const rootReducer = combineReducers({
   covTotals: covTotalsReducer,
   covGlobal: globalCovReducer,
@@ -40,31 +42,55 @@ export const selectTotalCoverageGroupedByCountries = createSelector(
   selectCountries,
   (coverages, countries) => {
     // data exist
-    if (Array.isArray(coverages)) {
-      return coverages
-        .map((coverage) => {
-          const timelineArr = Object.entries(coverage.timeline);
-          const country = countries.find(
-            (country) => country.country == coverage.country
-          );
-          const countryInfo = country?.countryInfo ?? null;
-          return {
-            country: coverage.country,
-            totalCountryCoverage: timelineArr.reduce(
-              (tot, acc) => (tot += acc[1]),
-              0
-            ),
-            countryInfo: countryInfo,
-          };
-        })
-        .sort((a, b) => b.totalCountryCoverage - a.totalCountryCoverage);
-    }
-    return coverages;
+    return coverages
+      .map((coverage) => {
+        const timelineArr = Object.entries(coverage.timeline);
+        const country = countries.find(
+          (country) => country.country == coverage.country
+        );
+        const countryInfo = country?.countryInfo ?? null;
+        return {
+          country: coverage.country,
+          totalCountryCoverage: timelineArr[timelineArr.length - 1][1], // the total is provided in the last array value
+          countryInfo: countryInfo,
+        };
+      })
+      .sort((a, b) => b.totalCountryCoverage - a.totalCountryCoverage);
   }
 );
 
-// sum all global timeline administrated vaccine doses
+// get total global timeline administrated vaccine doses by accessing last array value
 export const selectTotalGlobalCoverage = createSelector(
   selectGlobalCoverageTimeline,
-  (timeline) => Object.entries(timeline).reduce((tot, acc) => tot + acc[1], 0)
+  (timeline) => {
+    const timelineArr = Object.entries(timeline);
+    return timelineArr.length > 0 ? timelineArr[timelineArr.length - 1][1] : 0;
+  }
+);
+
+export const selectCoverageChart = createSelector(
+  selectTotalGlobalCoverage,
+  selectCoverageCountries,
+  (totalGlobal, coverageCountries) => {
+    moment.locale("it");
+    return coverageCountries
+      .map((country) => {
+        const timelineArr = Object.entries(country.timeline);
+        const total = timelineArr[timelineArr.length - 1][1];
+        const timelineObj = timelineArr.map((time) => ({
+          date: moment(time[0], "MM-DD-YY").format("DD/MM/YY"), // ex. from 3/27/21 to 27/3/2021
+          [country.country]: time[1],
+        }));
+        return {
+          ...country,
+          total,
+          totalPercentage: ((total / totalGlobal) * 100).toFixed(2),
+          timeline: timelineObj.slice(
+            timelineObj.length - 15,
+            timelineObj.length
+          ),
+        };
+      })
+      .sort((a, b) => b.total - a.total);
+  }
 );
