@@ -43,3 +43,14 @@ export const fetchGlobalCoverage = () => async (dispatch) => {
     dispatch({ type: "FETCH_GLOBALCOVERAGE_FAILURE", error });
   }
 };
+export const fetchMobility = () => async (dispatch) => {
+  dispatch({ type: "FETCH_MOBILITY_REQUEST" });
+  try {
+    const { data } = await axios.get(
+      "https://disease.sh/v3/covid-19/apple/countries"
+    );
+    dispatch({ type: "FETCH_MOBILITY_SUCCESS", payload: data });
+  } catch (error) {
+    dispatch({ type: "FETCH_MOBILITY_FAILURE", error });
+  }
+};
