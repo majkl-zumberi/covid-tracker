@@ -1,16 +1,18 @@
+import moment from "moment";
 import { combineReducers } from "redux";
 import { createSelector } from "reselect";
 import coverageReducer from "./coverage";
 import covTotalsReducer from "./covTotals";
 import globalCovReducer from "./globalCov";
 import globalCoverageReducer from "./globalCoverage";
-import moment from "moment";
+import mobilityReducer from "./mobility";
 moment.locale("it");
 const rootReducer = combineReducers({
   covTotals: covTotalsReducer,
   covGlobal: globalCovReducer,
   coverage: coverageReducer,
   globalCoverage: globalCoverageReducer,
+  mobility: mobilityReducer,
 });
 export default rootReducer;
 
@@ -21,9 +23,14 @@ export const selectCountries = (state) => state.covTotals.countries;
 export const selectCoverage = (state) => state.coverage;
 export const selectCoverageCountries = (state) =>
   state.coverage.coverageCountries;
+
 export const selectGlobalCoverage = (state) => state.globalCoverage;
 export const selectGlobalCoverageTimeline = (state) =>
   state.globalCoverage.timeline;
+
+export const selectMobility = (state) => state.mobility;
+export const selectMobilityCountries = (state) =>
+  state.mobility.mobilityCountries;
 
 //descending
 export const selectCountriesSortedByDeaths = createSelector(
@@ -92,5 +99,22 @@ export const selectCoverageChart = createSelector(
         };
       })
       .sort((a, b) => b.total - a.total);
+  }
+);
+
+export const selectMobilityCountriesWithinFlag = createSelector(
+  selectMobilityCountries,
+  selectCountries,
+  (mobilityCountries, flagCountries) => {
+    return mobilityCountries.map((mobCountry) => {
+      const country = flagCountries.find(
+        (countryFlag) => countryFlag.country == mobCountry
+      );
+      const countryInfo = country?.countryInfo ?? null;
+      return {
+        country: mobCountry,
+        countryInfo,
+      };
+    });
   }
 );
