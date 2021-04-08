@@ -30,7 +30,6 @@ const Coverage = () => {
   );
   const totalGlobalCoverage = useSelector(selectTotalGlobalCoverage);
   const rowsChart = useSelector(selectCoverageChart);
-  console.log({ rowsChart });
   const [chart, setChart] = useState({
     options: {
       autoSize: true,
