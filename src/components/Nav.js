@@ -8,8 +8,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import InboxIcon from "@material-ui/icons/Inbox";
+import ArtTrackIcon from "@material-ui/icons/ArtTrack";
+import ColorizeIcon from "@material-ui/icons/Colorize";
+import CommuteIcon from "@material-ui/icons/Commute";
 import MenuIcon from "@material-ui/icons/Menu";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -64,10 +65,10 @@ function Nav() {
         onClose={() => toggleDrawer(false)}
       >
         <div className={classes.list}>
-          <List component="nav" aria-label="main mailbox folders">
+          <List component="nav" aria-label="casi e decessi">
             <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <ArtTrackIcon />
               </ListItemIcon>
               <ListItemText
                 primary="casi e decessi"
@@ -76,11 +77,20 @@ function Nav() {
             </ListItem>
             <ListItem button>
               <ListItemIcon>
-                <DraftsIcon />
+                <ColorizeIcon />
               </ListItemIcon>
               <ListItemText
-                primary="vaccinazioni"
+                primary="dosi vaccini somministrati"
                 onClick={() => redirectToPath("/coverage")}
+              />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <CommuteIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary="trend di mobilità legati al COVID-19"
+                onClick={() => redirectToPath("/mobility")}
               />
             </ListItem>
           </List>
