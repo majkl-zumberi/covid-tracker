@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "transparent",
     },
     [theme.breakpoints.down("lg")]: {
-      height: "83vh",
+      height: "84vh",
       backgroundColor: "transparent",
     },
   },
