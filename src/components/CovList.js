@@ -57,8 +57,14 @@ const useStyles = makeStyles((theme) => ({
       margin: "3.5rem  0",
     },
   },
+  ListItem: {
+    "&:hover": {
+      backgroundColor: "#6e4dd1",
+      cursor: "pointer",
+    },
+  },
 }));
-const renderData = (items, focus, onSelectListItem) => {
+const renderData = (items, focus, onSelectListItem, classes) => {
   const avatarClass = {
     display: "flex",
     justifyItems: "center",
@@ -69,6 +75,7 @@ const renderData = (items, focus, onSelectListItem) => {
   return items.map((item, idx) => {
     return (
       <ListItem
+        className={classes.ListItem}
         key={item?.countryInfo?._id ?? idx}
         onClick={() => onSelectListItem(item.country)}
       >
@@ -133,7 +140,7 @@ function CovList({
         <List className={classes.list} subheader={<li />}>
           <li className={classes.listSection}>
             <ul className={classes.ul}>
-              {renderData(items, focus, onSelectListItem)}
+              {renderData(items, focus, onSelectListItem, classes)}
             </ul>
           </li>
         </List>
