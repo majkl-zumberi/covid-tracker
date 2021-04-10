@@ -12,6 +12,7 @@ import ListContainer from "./ListContainer";
 import Loader from "./Loader";
 import MobilityDialog from "./MobilityDialog";
 import CovChart from "./CovChart";
+import moment from "moment";
 const useStyles = makeStyles(() => ({
   Mobility: {
     textAlign: "center",
@@ -83,7 +84,9 @@ const Mobility = () => {
       dataChart = data.data.map((subregionMobility) => {
         return {
           [subregionMobility.subregion_and_city]: subregionMobility.driving,
-          date: subregionMobility.date,
+          date: moment(subregionMobility.date, "YYYY-MM-DD").format(
+            "DD/MMM/YYYY"
+          ),
         };
       });
     } else {
@@ -93,7 +96,9 @@ const Mobility = () => {
           return subregionsMobility.data.map((subregionMobility) => {
             return {
               [subregionMobility.subregion_and_city]: subregionMobility.driving,
-              date: subregionMobility.date,
+              date: moment(subregionMobility.date, "YYYY-MM-DD").format(
+                "DD/MMM/YYYY"
+              ),
             };
           });
         })
