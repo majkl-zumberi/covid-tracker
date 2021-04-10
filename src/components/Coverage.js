@@ -12,8 +12,7 @@ import Container from "./Container";
 import CovList from "./CovList";
 import ListContainer from "./ListContainer";
 import Loader from "./Loader";
-import Grid from "@material-ui/core/Grid";
-import { AgChartsReact } from "ag-charts-react";
+import CovChart from "./CovChart";
 
 const useStyles = makeStyles(() => ({
   Coverage: {
@@ -63,6 +62,26 @@ const Coverage = () => {
             yName: rowsChart[1]?.country ?? "",
           },
         ],
+        axes: [
+          {
+            type: "number",
+            position: "left",
+            title: {
+              text: "",
+              enabled: false,
+            },
+          },
+          {
+            type: "category",
+            position: "bottom",
+            label: {
+              color: "#ffffff",
+            },
+          },
+        ],
+        legend: {
+          position: "bottom",
+        },
       },
     });
   }, [rowsChart]);
@@ -132,9 +151,7 @@ const Coverage = () => {
             onSelectListItem={handleClickListItem}
           />
         </ListContainer>
-        <Grid item xs={12} sm={12} md={9} lg={9} xl={10}>
-          <AgChartsReact options={chart.options} />
-        </Grid>
+        <CovChart chart={chart} chartLoading={false} />
       </Container>
     );
   };
