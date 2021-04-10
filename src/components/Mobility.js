@@ -117,7 +117,7 @@ const Mobility = () => {
     setChart({
       options: {
         title: {
-          text: `trend di mobilità (automobile in %) dal 13 gennaio 2020 per ${selected.country}`,
+          text: `trend di mobilità (% auto in transito) dal 13 gennaio 2020 per ${selected.country}`,
         },
         data: dataChart,
         series: seriesChart,
