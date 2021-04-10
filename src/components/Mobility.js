@@ -11,8 +11,7 @@ import CovList from "./CovList";
 import ListContainer from "./ListContainer";
 import Loader from "./Loader";
 import MobilityDialog from "./MobilityDialog";
-import Grid from "@material-ui/core/Grid";
-import { AgChartsReact } from "ag-charts-react";
+import CovChart from "./CovChart";
 const useStyles = makeStyles(() => ({
   Mobility: {
     textAlign: "center",
@@ -23,10 +22,11 @@ const Mobility = () => {
   const classes = useStyles();
   const mobilityState = useSelector(selectMobility);
   const mobilityCountries = useSelector(selectMobilityCountriesWithinFlag);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); // dialog state
   const [loading, setLoading] = useState(false);
   const [subregions, setSubregions] = useState([]);
   const [selected, setSelected] = useState({});
+  const [chartLoading, setChartLoading] = useState(false);
   const [chart, setChart] = useState({
     options: {
       autoSize: true,
@@ -39,12 +39,12 @@ const Mobility = () => {
     },
   });
   const fetchSubRegions = async (country) => {
-    console.log({ country });
     const index = subregions.findIndex(
       (subregion) => subregion?.country == country
     ); // -1 not found; != -1 country already exists
 
     if (index !== -1) {
+      // data already exists in state, no need to perform HTTP request call
       return subregions[index];
     }
 
@@ -71,14 +71,15 @@ const Mobility = () => {
 
   const handleSelectedSubregions = async (subregionsString) => {
     setOpen(false);
+    setChartLoading(true);
     const { data } = await axios.get(
       `https://disease.sh/v3/covid-19/apple/countries/${selected.country}/${subregionsString}`
     );
-    console.log({ dati: { data } });
+
     let dataChart;
-    console.log(subregionsString.split(","));
-    console.log(subregionsString.split(",").length);
+
     if (subregionsString.split(",").length == 1) {
+      // subregionsString contain only one subregion
       dataChart = data.data.map((subregionMobility) => {
         return {
           [subregionMobility.subregion_and_city]: subregionMobility.driving,
@@ -86,6 +87,7 @@ const Mobility = () => {
         };
       });
     } else {
+      // subregionsString contain multiple subregions
       dataChart = data
         .map((subregionsMobility) => {
           return subregionsMobility.data.map((subregionMobility) => {
@@ -105,7 +107,8 @@ const Mobility = () => {
         xKeyName: " ",
       };
     });
-    console.log({ dataChart });
+
+    setChartLoading(false);
     setChart({
       options: {
         title: {
@@ -130,9 +133,12 @@ const Mobility = () => {
             },
           },
         ],
+        legend: {
+          position: "bottom",
+        },
       },
     });
-    console.log({ chart });
+
     setSelected({});
   };
 
@@ -160,9 +166,8 @@ const Mobility = () => {
           loading={loading}
           data={selected}
         />
-        <Grid item xs={12} sm={12} md={9} lg={9} xl={10}>
-          <AgChartsReact options={chart.options} />
-        </Grid>
+
+        <CovChart chart={chart} chartLoading={chartLoading} />
       </Container>
     );
   };
